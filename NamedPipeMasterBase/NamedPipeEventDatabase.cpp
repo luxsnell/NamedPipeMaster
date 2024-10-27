@@ -234,7 +234,10 @@ BOOL NamedPipeEventDatabase::PrintReadEvent(const NAMED_PIPE_EVENT& namedPipeEve
         cmdId2str[(CMD_ID)namedPipeEvent.cmdId], sourceType2str[(SOURCE_TYPE)namedPipeEvent.sourceType],
         namedPipeEvent.threadId, namedPipeEvent.processId, namedPipeEvent.imagePath,
         "0x" + toHexStr(namedPipeEvent.fileObject), namedPipeEvent.status, namedPipeEvent.fileNameLength,
-        namedPipeEvent.fileName, isTrue(namedPipeEvent.canImpersonate), namedPipeEvent.bufferLength,
+        namedPipeEvent.fileName,
+        (SOURCE_TYPE)namedPipeEvent.sourceType == SOURCE_INJECTED_DLL ? isTrue(namedPipeEvent.canImpersonate)
+                                                                      : "(not applicable)",
+        namedPipeEvent.bufferLength,
         toXxdFormat(reinterpret_cast<const UCHAR*>(namedPipeEvent.buffer.data()), namedPipeEvent.buffer.size()), stackTrace);
 
     return TRUE;
@@ -267,7 +270,10 @@ BOOL NamedPipeEventDatabase::PrintWriteEvent(const NAMED_PIPE_EVENT& namedPipeEv
         cmdId2str[(CMD_ID)namedPipeEvent.cmdId], sourceType2str[(SOURCE_TYPE)namedPipeEvent.sourceType],
         namedPipeEvent.threadId, namedPipeEvent.processId, namedPipeEvent.imagePath,
         "0x" + toHexStr(namedPipeEvent.fileObject), namedPipeEvent.status, namedPipeEvent.fileNameLength,
-        namedPipeEvent.fileName, isTrue(namedPipeEvent.canImpersonate), namedPipeEvent.bufferLength,
+        namedPipeEvent.fileName,
+        (SOURCE_TYPE)namedPipeEvent.sourceType == SOURCE_INJECTED_DLL ? isTrue(namedPipeEvent.canImpersonate)
+                                                                      : "(not applicable)",
+        namedPipeEvent.bufferLength,
         toXxdFormat(reinterpret_cast<const UCHAR*>(namedPipeEvent.buffer.data()), namedPipeEvent.buffer.size()), stackTrace);
 
     return TRUE;
@@ -298,7 +304,10 @@ BOOL NamedPipeEventDatabase::PrintConnectNamedPipeEvent(const NAMED_PIPE_EVENT& 
         cmdId2str[(CMD_ID)namedPipeEvent.cmdId], sourceType2str[(SOURCE_TYPE)namedPipeEvent.sourceType],
         namedPipeEvent.threadId, namedPipeEvent.processId, namedPipeEvent.imagePath,
         "0x" + toHexStr(namedPipeEvent.fileObject), namedPipeEvent.status, namedPipeEvent.fileNameLength,
-        namedPipeEvent.fileName, isTrue(namedPipeEvent.canImpersonate), stackTrace);
+        namedPipeEvent.fileName,
+        (SOURCE_TYPE)namedPipeEvent.sourceType == SOURCE_INJECTED_DLL ? isTrue(namedPipeEvent.canImpersonate)
+                                                                      : "(not applicable)",
+        stackTrace);
 
     return TRUE;
 }
